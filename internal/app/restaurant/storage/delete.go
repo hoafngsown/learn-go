@@ -10,8 +10,8 @@ import (
 func (s *sqlStore) DeleteRestaurant(ctx context.Context, id uint) error {
 	db := s.db.Table(restaurantmodel.Restaurant{}.TableName())
 
-	if err := db.Where("id = ?", id).Updates(restaurantmodel.Restaurant{
-		Status: string(constants.RestaurantStatusInactiveEnum),
+	if err := db.Where("id = ?", id).Updates(map[string]interface{}{
+		"status": string(constants.RestaurantStatusInactiveEnum),
 	}).Error; err != nil {
 		return common.ErrorDB(err)
 	}
