@@ -5,6 +5,7 @@ import (
 	"learn-go/v2/internal/app/restaurant/transport/ginrestaurant"
 	"learn-go/v2/internal/components"
 	"learn-go/v2/internal/interfaces"
+	"learn-go/v2/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
@@ -41,7 +42,7 @@ func main() {
 	appCtx := components.NewAppContext(db, util)
 
 	router := gin.Default()
-
+	router.Use(middleware.Recover(appCtx))
 	{
 		v1 := router.Group("/v1")
 		v1.GET("/restaurants", ginrestaurant.ListRestaurant(appCtx))

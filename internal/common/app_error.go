@@ -141,3 +141,5 @@ func ErrorCannotDeleteEntity(entity string, err error) *AppError {
 		"CANNOT_DELETE_ENTITY",
 	)
 }
+
+var RecordNotFound = errors.New("record not found")

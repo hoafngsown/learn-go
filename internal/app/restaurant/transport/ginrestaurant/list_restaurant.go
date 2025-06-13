@@ -22,15 +22,13 @@ func ListRestaurant(appCtx components.AppContext) gin.HandlerFunc {
 		var paging common.Paging
 
 		if err := c.ShouldBind(&paging); err != nil {
-			c.JSON(http.StatusBadRequest, common.ErrorInvalidRequest(err))
-			return
+			panic(common.ErrorInvalidRequest(err))
 		}
 
 		var filter restaurantmodel.Filter
 
 		if err := c.ShouldBind(&filter); err != nil {
-			c.JSON(http.StatusBadRequest, common.ErrorInvalidRequest(err))
-			return
+			panic(common.ErrorInvalidRequest(err))
 		}
 
 		store := restaurantstorage.NewSQLStore(db)
@@ -41,8 +39,7 @@ func ListRestaurant(appCtx components.AppContext) gin.HandlerFunc {
 		result, err := biz.ListRestaurant(c.Request.Context(), &paging, &filter)
 
 		if err != nil {
-			c.JSON(http.StatusBadRequest, err)
-			return
+			panic(err)
 		}
 
 		c.JSON(http.StatusOK, common.NewSuccessResponse(result, paging, filter))
