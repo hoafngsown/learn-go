@@ -1,0 +1,7 @@
+PATCH http://localhost:8080/v1/restaurants/1
+Content-Type: application/json
+
+{
+	"name": "test1_updated",
+	"address": "43 Huynh Ngoc Du"
+}

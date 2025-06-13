@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"learn-go/v2/module/interfaces"
+	"learn-go/v2/internal/interfaces"
 	"os"
 
 	"github.com/joho/godotenv"

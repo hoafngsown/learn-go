@@ -1,7 +1,7 @@
 package main
 
 import (
-	"learn-go/v2/module/interfaces"
+	"learn-go/v2/internal/interfaces"
 	"log"
 	"log/slog"
 	"os"

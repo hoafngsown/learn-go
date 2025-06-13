@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"learn-go/v2/module/component"
-	"learn-go/v2/module/interfaces"
-	"net/http"
+	"learn-go/v2/internal/app/restaurant/transport/ginrestaurant"
+	"learn-go/v2/internal/components"
+	"learn-go/v2/internal/interfaces"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
@@ -23,13 +23,6 @@ type Restaurant struct {
 }
 
 func main() {
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
-
 	env := NewEnvironment()
 	dbConnStr := env.GetEnv(interfaces.DATABASE, "CONN_STR")
 
@@ -40,16 +33,26 @@ func main() {
 		panic(err)
 	}
 
+	db.Debug()
+
 	log := NewLogger()
 	util := NewUtil(log, env)
 
-	appCtx := component.NewAppContext(db, util)
+	appCtx := components.NewAppContext(db, util)
 
-	fmt.Println("Connect to database successfully", appCtx)
+	router := gin.Default()
+
+	{
+		v1 := router.Group("/v1")
+		v1.GET("/restaurants", ginrestaurant.ListRestaurant(appCtx))
+		v1.GET("/restaurants/:id", ginrestaurant.DetailRestaurant(appCtx))
+		v1.POST("/restaurants", ginrestaurant.CreateRestaurant(appCtx))
+		v1.PATCH("/restaurants/:id", ginrestaurant.UpdateRestaurant(appCtx))
+		v1.DELETE("/restaurants/:id", ginrestaurant.DeleteRestaurant(appCtx))
+	}
 
 	serverPort := env.GetEnv(interfaces.SERVER, "PORT")
-
-	r.Run(fmt.Sprintf(":%s", serverPort))
+	router.Run(fmt.Sprintf(":%s", serverPort))
 }
 
 func NewUtil(log *Logger, env *Environment) *interfaces.Util {

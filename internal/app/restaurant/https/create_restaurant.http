@@ -1,0 +1,7 @@
+POST http://localhost:8080/v1/restaurants
+Content-Type: application/json
+
+{
+	"name": "test3",
+	"address": "test3"
+}
