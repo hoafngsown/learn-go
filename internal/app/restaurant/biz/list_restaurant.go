@@ -20,7 +20,7 @@ func NewListRestaurantBiz(store ListRestaurantStore) *listRestaurantBiz {
 }
 
 func (biz *listRestaurantBiz) ListRestaurant(ctx context.Context, paging *common.Paging, filter *restaurantmodel.Filter) ([]restaurantmodel.Restaurant, error) {
-	filter.Status = []constants.RestaurantStatusStr{constants.RestaurantStatusActiveEnum}
+	filter.Status = []constants.RestaurantStatus{constants.RestaurantStatusActive}
 
 	result, err := biz.store.ListWithCondition(ctx, paging, filter)
 

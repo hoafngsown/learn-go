@@ -6,7 +6,6 @@ import (
 	"learn-go/v2/internal/common"
 	"learn-go/v2/internal/components"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +17,7 @@ func DetailRestaurant(appCtx components.AppContext) gin.HandlerFunc {
 
 		log.Info("Processing detail restaurant")
 
-		id, err := strconv.Atoi(c.Param("id"))
+		uid, err := common.FromBase58(c.Param("id"))
 
 		if err != nil {
 			panic(common.ErrorInvalidRequest(err))
@@ -27,11 +26,13 @@ func DetailRestaurant(appCtx components.AppContext) gin.HandlerFunc {
 		store := restaurantstorage.NewSQLStore(db)
 		biz := restaurantbiz.NewDetailRestaurantBiz(store)
 
-		restaurant, err := biz.DetailRestaurant(c.Request.Context(), uint(id))
+		restaurant, err := biz.DetailRestaurant(c.Request.Context(), uint(uid.GetLocalID()))
 
 		if err != nil {
 			panic(err)
 		}
+
+		restaurant.Mask(false)
 
 		c.JSON(http.StatusOK, common.SimpleSuccessResponse(restaurant))
 	}

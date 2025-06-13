@@ -27,7 +27,7 @@ func (biz *deleteRestaurantBiz) DeleteRestaurant(ctx context.Context, id uint) e
 		return common.ErrorNotFound(err)
 	}
 
-	if existRestaurant.Status == string(constants.RestaurantStatusInactiveEnum) {
+	if existRestaurant.Status == int(constants.RestaurantStatusInactive) {
 		return common.ErrorCannotDeleteEntity(restaurantmodel.EntityName, nil)
 	}
 

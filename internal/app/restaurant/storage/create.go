@@ -7,7 +7,7 @@ import (
 )
 
 func (s *sqlStore) CreateRestaurant(ctx context.Context, restaurant *restaurantmodel.RestaurantCreate) *common.AppError {
-	if err := s.db.Create(restaurant).Error; err != nil {
+	if err := s.db.Create(&restaurant).Error; err != nil {
 		return common.ErrorDB(err)
 	}
 

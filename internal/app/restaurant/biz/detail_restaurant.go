@@ -21,7 +21,7 @@ func NewDetailRestaurantBiz(store DetailRestaurantStore) *detailRestaurantBiz {
 }
 
 func (biz *detailRestaurantBiz) DetailRestaurant(ctx context.Context, id uint) (*restaurantmodel.Restaurant, error) {
-	status := string(constants.RestaurantStatusActiveEnum)
+	status := constants.RestaurantStatusActive
 	restaurant, err := biz.store.FindWithCondition(
 		ctx,
 		map[string]interface{}{

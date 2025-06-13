@@ -2,12 +2,15 @@ package restaurantstorage
 
 import (
 	"context"
+	"fmt"
 	restaurantmodel "learn-go/v2/internal/app/restaurant/model"
 	"learn-go/v2/internal/common"
 )
 
 func (s *sqlStore) ListWithCondition(ctx context.Context, paging *common.Paging, filter *restaurantmodel.Filter) ([]restaurantmodel.Restaurant, error) {
 	db := s.db.Table(restaurantmodel.Restaurant{}.TableName())
+
+	fmt.Println("Filter", filter.Status)
 
 	if f := filter; f != nil {
 		if f.OwnerId > 0 {

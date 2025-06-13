@@ -6,7 +6,6 @@ import (
 	"learn-go/v2/internal/common"
 	"learn-go/v2/internal/components"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +17,7 @@ func DeleteRestaurant(appCtx components.AppContext) gin.HandlerFunc {
 
 		log.Info("Processing delete restaurant")
 
-		id, err := strconv.Atoi(c.Param("id"))
+		uid, err := common.FromBase58(c.Param("id"))
 
 		if err != nil {
 			panic(common.ErrorInvalidRequest(err))
@@ -27,7 +26,7 @@ func DeleteRestaurant(appCtx components.AppContext) gin.HandlerFunc {
 		store := restaurantstorage.NewSQLStore(db)
 		biz := restaurantbiz.NewDeleteRestaurantBiz(store)
 
-		if err := biz.DeleteRestaurant(c.Request.Context(), uint(id)); err != nil {
+		if err := biz.DeleteRestaurant(c.Request.Context(), uint(uid.GetLocalID())); err != nil {
 			panic(err)
 		}
 
