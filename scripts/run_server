@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# If --local then start docker-compose.local
+if [[ "$1" == "--local" ]]; then
+    export $(cat .env.development | xargs)
+    docker-compose -f docker-compose.local.yml up --build -d
+
+    # While loop until the database is up
+    while ! docker exec $(docker-compose -f docker-compose.local.yml ps -q mysql) mysql -u mysql -pmysql -e "SELECT 1" 2>/dev/null; do
+        echo "Waiting for database to be ready..."
+        sleep 1
+    done
+fi
+
+air --build.cmd "go build -o bin/server webserver/*.go" --build.bin "./bin/server"
