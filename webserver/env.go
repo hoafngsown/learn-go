@@ -8,16 +8,16 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var _ interfaces.Environment = (*Environment)(nil)
+var _ interfaces.Environment = (*environment)(nil)
 
 const (
 	APP_DEVELOPMENT = "development"
 	APP_PRODUCTION  = "production"
 )
 
-type Environment struct{}
+type environment struct{}
 
-func NewEnvironment() *Environment {
+func NewEnvironment() *environment {
 	appEnv := os.Getenv("APP_ENV")
 	fmt.Printf("APP_ENV: %s\n", appEnv)
 
@@ -27,10 +27,10 @@ func NewEnvironment() *Environment {
 		loadAppProd()
 	}
 
-	return &Environment{}
+	return &environment{}
 }
 
-func (e *Environment) GetEnv(space interfaces.SPACE, key string) string {
+func (e *environment) GetEnv(space interfaces.SPACE, key string) string {
 	spacePrefix := map[interfaces.SPACE]interfaces.SPACE{
 		interfaces.SERVER:   "SERVER_",
 		interfaces.DATABASE: "DB_",

@@ -56,7 +56,7 @@ func main() {
 	router.Run(fmt.Sprintf(":%s", serverPort))
 }
 
-func NewUtil(log *Logger, env *Environment) *interfaces.Util {
+func NewUtil(log *logging, env *environment) *interfaces.Util {
 	return &interfaces.Util{
 		Log:         log,
 		Logger:      log.ErrorLogger,

@@ -7,38 +7,38 @@ import (
 	"os"
 )
 
-var _ interfaces.LogUtil = (*Logger)(nil)
+var _ interfaces.LogUtil = (*logging)(nil)
 
-type Logger struct {
+type logging struct {
 	logger      *slog.Logger
 	ErrorLogger *log.Logger
 }
 
-func NewLogger() *Logger {
+func NewLogger() *logging {
 	handler := slog.NewJSONHandler(os.Stdout, nil)
 	logger := slog.New(handler)
 	errorLogger := slog.NewLogLogger(handler, slog.LevelError)
 
 	slog.SetDefault(logger)
 
-	return &Logger{
+	return &logging{
 		logger:      logger,
 		ErrorLogger: errorLogger,
 	}
 }
 
-func (l *Logger) Info(message string, data ...interfaces.LogData) {
+func (l *logging) Info(message string, data ...interfaces.LogData) {
 	l.logger.Info(message, "data", data)
 }
 
-func (l *Logger) Debug(message string, data ...interfaces.LogData) {
+func (l *logging) Debug(message string, data ...interfaces.LogData) {
 	l.logger.Debug(message, "data", data)
 }
 
-func (l *Logger) Warn(message string, data ...interfaces.LogData) {
+func (l *logging) Warn(message string, data ...interfaces.LogData) {
 	l.logger.Warn(message, "data", data)
 }
 
-func (l *Logger) Error(message string, data ...interfaces.LogData) {
+func (l *logging) Error(message string, data ...interfaces.LogData) {
 	l.logger.Error(message, "data", data)
 }
