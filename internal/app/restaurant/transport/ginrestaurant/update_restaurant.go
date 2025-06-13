@@ -22,14 +22,14 @@ func UpdateRestaurant(appCtx components.AppContext) gin.HandlerFunc {
 		id, err := strconv.Atoi(c.Param("id"))
 
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid restaurant ID"})
+			c.JSON(http.StatusBadRequest, common.ErrorInvalidRequest(err))
 			return
 		}
 
 		restaurant := restaurantmodel.RestaurantUpdate{}
 
 		if err := c.ShouldBind(&restaurant); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			c.JSON(http.StatusBadRequest, common.ErrorInvalidRequest(err))
 			return
 		}
 
@@ -37,7 +37,7 @@ func UpdateRestaurant(appCtx components.AppContext) gin.HandlerFunc {
 		biz := restaurantbiz.NewUpdateRestaurantBiz(store)
 
 		if err := biz.UpdateRestaurant(c.Request.Context(), uint(id), &restaurant); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			c.JSON(http.StatusBadRequest, err)
 			return
 		}
 

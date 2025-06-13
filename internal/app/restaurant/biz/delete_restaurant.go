@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	restaurantmodel "learn-go/v2/internal/app/restaurant/model"
+	"learn-go/v2/internal/common"
 	"learn-go/v2/internal/constants"
 )
 
@@ -24,18 +25,22 @@ func (biz *deleteRestaurantBiz) DeleteRestaurant(ctx context.Context, id uint) e
 	existRestaurant, err := biz.store.FindWithCondition(ctx, map[string]interface{}{"id": id})
 
 	if err != nil {
-		return err
+		return common.ErrorCannotGetEntity(restaurantmodel.EntityName, err)
 	}
 
 	if existRestaurant.Status == string(constants.RestaurantStatusInactiveEnum) {
-		return errors.New("restaurant is deleted")
+		return common.ErrorCannotDeleteEntity(restaurantmodel.EntityName, ErrRestaurantDeleted)
 	}
 
 	err = biz.store.DeleteRestaurant(ctx, id)
 
 	if err != nil {
-		return err
+		return common.ErrorCannotDeleteEntity(restaurantmodel.EntityName, err)
 	}
 
 	return nil
 }
+
+var (
+	ErrRestaurantDeleted = errors.New("cannot delete restaurant")
+)

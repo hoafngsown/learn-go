@@ -2,7 +2,10 @@ package restaurantbiz
 
 import (
 	"context"
+	"errors"
 	restaurantmodel "learn-go/v2/internal/app/restaurant/model"
+	"learn-go/v2/internal/common"
+	"learn-go/v2/internal/constants"
 )
 
 type DetailRestaurantStore interface {
@@ -18,11 +21,26 @@ func NewDetailRestaurantBiz(store DetailRestaurantStore) *detailRestaurantBiz {
 }
 
 func (biz *detailRestaurantBiz) DetailRestaurant(ctx context.Context, id uint) (*restaurantmodel.Restaurant, error) {
-	restaurant, err := biz.store.FindWithCondition(ctx, map[string]interface{}{"id": id})
+	status := string(constants.RestaurantStatusActiveEnum)
+	restaurant, err := biz.store.FindWithCondition(
+		ctx,
+		map[string]interface{}{
+			"id":     id,
+			"status": status,
+		},
+	)
 
 	if err != nil {
-		return nil, err
+		return nil, common.ErrorCannotGetEntity(restaurantmodel.EntityName, err)
+	}
+
+	if restaurant == nil {
+		return nil, common.ErrorNotFound(ErrRestaurantNotFound)
 	}
 
 	return restaurant, nil
 }
+
+var (
+	ErrRestaurantNotFound = errors.New("restaurant not found")
+)

@@ -3,6 +3,7 @@ package restaurantbiz
 import (
 	"context"
 	restaurantmodel "learn-go/v2/internal/app/restaurant/model"
+	"learn-go/v2/internal/common"
 )
 
 type UpdateRestaurantStore interface {
@@ -19,7 +20,7 @@ func NewUpdateRestaurantBiz(store UpdateRestaurantStore) *updateRestaurantBiz {
 
 func (biz *updateRestaurantBiz) UpdateRestaurant(ctx context.Context, id uint, data *restaurantmodel.RestaurantUpdate) error {
 	if err := biz.store.UpdateRestaurant(ctx, id, data); err != nil {
-		return err
+		return common.ErrorCannotUpdateEntity(restaurantmodel.EntityName, err)
 	}
 
 	return nil

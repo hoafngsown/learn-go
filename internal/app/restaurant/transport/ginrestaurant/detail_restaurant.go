@@ -21,7 +21,7 @@ func DetailRestaurant(appCtx components.AppContext) gin.HandlerFunc {
 		id, err := strconv.Atoi(c.Param("id"))
 
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid restaurant ID"})
+			c.JSON(http.StatusBadRequest, common.ErrorInvalidRequest(err))
 			return
 		}
 
@@ -31,7 +31,7 @@ func DetailRestaurant(appCtx components.AppContext) gin.HandlerFunc {
 		restaurant, err := biz.DetailRestaurant(c.Request.Context(), uint(id))
 
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			c.JSON(http.StatusBadRequest, err)
 			return
 		}
 

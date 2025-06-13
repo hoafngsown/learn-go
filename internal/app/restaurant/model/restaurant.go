@@ -1,5 +1,7 @@
 package restaurantmodel
 
+const EntityName = "Restaurant"
+
 type Restaurant struct {
 	ID      uint   `json:"id" gorm:"column:id"`
 	Name    string `json:"name" gorm:"column:name"`
