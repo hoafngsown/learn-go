@@ -20,7 +20,7 @@ func (s *sqlStore) ListWithCondition(ctx context.Context, paging *common.Paging,
 	}
 
 	if err := db.Count(&paging.Total).Error; err != nil {
-		return nil, err
+		return nil, common.ErrorDB(err)
 	}
 
 	var result []restaurantmodel.Restaurant
@@ -30,7 +30,7 @@ func (s *sqlStore) ListWithCondition(ctx context.Context, paging *common.Paging,
 		Limit(paging.Limit).
 		Order("id desc").
 		Find(&result).Error; err != nil {
-		return nil, err
+		return nil, common.ErrorDB(err)
 	}
 
 	return result, nil

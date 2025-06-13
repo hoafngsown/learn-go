@@ -3,6 +3,7 @@ package restaurantstorage
 import (
 	"context"
 	restaurantmodel "learn-go/v2/internal/app/restaurant/model"
+	"learn-go/v2/internal/common"
 	"learn-go/v2/internal/constants"
 )
 
@@ -12,7 +13,7 @@ func (s *sqlStore) DeleteRestaurant(ctx context.Context, id uint) error {
 	if err := db.Where("id = ?", id).Updates(restaurantmodel.Restaurant{
 		Status: string(constants.RestaurantStatusInactiveEnum),
 	}).Error; err != nil {
-		return err
+		return common.ErrorDB(err)
 	}
 
 	return nil

@@ -3,6 +3,7 @@ package restaurantstorage
 import (
 	"context"
 	restaurantmodel "learn-go/v2/internal/app/restaurant/model"
+	"learn-go/v2/internal/common"
 )
 
 func (s *sqlStore) FindWithCondition(
@@ -15,7 +16,7 @@ func (s *sqlStore) FindWithCondition(
 	var result restaurantmodel.Restaurant
 
 	if err := db.Where(condition).First(&result).Error; err != nil {
-		return nil, err
+		return nil, common.ErrorDB(err)
 	}
 
 	return &result, nil
