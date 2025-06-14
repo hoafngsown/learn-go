@@ -3,5 +3,20 @@ Content-Type: application/json
 
 {
 	"name": "test44",
-	"address": "test44"
+	"address": "test44",
+	"logo": {
+		"url": "https://marketplace.canva.com/EAGTZ4D-6vc/2/0/1600w/canva-orange-and-red-cute-illustrative-pizza-logo-k4nofeXhsjk.jpg",
+		"width": 700,
+		"height": 700
+	},
+	"cover": [{
+		"url": "https://marketplace.canva.com/EAGTZ4D-6vc/2/0/1600w/canva-orange-and-red-cute-illustrative-pizza-logo-k4nofeXhsjk.jpg",
+		"width": 700,
+		"height": 700
+	},
+	{
+		"url": "https://marketplace.canva.com/EAGTZ4D-6vc/2/0/1600w/canva-orange-and-red-cute-illustrative-pizza-logo-k4nofeXhsjk.jpg",
+		"width": 700,
+		"height": 700
+	}]
 }
