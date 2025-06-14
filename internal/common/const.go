@@ -1,12 +1,12 @@
 package common
 
-import "learn-go/v2/internal/interfaces"
+import "learn-go/v2/internal/components/logger"
 
 const DBTypeRestaurant = 1
 
-func AppRecover(util *interfaces.Util) {
+func AppRecover(log logger.LogUtil) {
 	if r := recover(); r != nil {
-		util.Log.Error("Recovery error", interfaces.LogData{
+		log.Error("Recovery error", logger.LogData{
 			"error": r,
 		})
 	}

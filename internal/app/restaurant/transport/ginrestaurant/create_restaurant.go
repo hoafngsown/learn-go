@@ -5,7 +5,7 @@ import (
 	restaurantmodel "learn-go/v2/internal/app/restaurant/model"
 	restaurantstorage "learn-go/v2/internal/app/restaurant/storage"
 	"learn-go/v2/internal/common"
-	"learn-go/v2/internal/components"
+	components "learn-go/v2/internal/components/app_context"
 
 	"net/http"
 

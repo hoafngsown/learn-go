@@ -1,0 +1,14 @@
+# Environment variables
+.env
+.env.*
+.env*
+!.env.example
+
+!
+
+# Build output
+bin/
+
+# Temporary files
+tmp/
+

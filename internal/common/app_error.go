@@ -142,4 +142,12 @@ func ErrorCannotDeleteEntity(entity string, err error) *AppError {
 	)
 }
 
+func ErrorCannotSaveFile(err error) *AppError {
+	return NewCustomError(err,
+		fmt.Sprintf("Cannot save file"),
+		fmt.Sprintf("Cannot save file"),
+		"CANNOT_SAVE_FILE",
+	)
+}
+
 var RecordNotFound = errors.New("record not found")

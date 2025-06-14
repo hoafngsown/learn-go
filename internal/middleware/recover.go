@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"learn-go/v2/internal/common"
-	"learn-go/v2/internal/components"
+	components "learn-go/v2/internal/components/app_context"
 
 	"github.com/gin-gonic/gin"
 )
