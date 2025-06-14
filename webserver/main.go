@@ -37,9 +37,7 @@ func main() {
 	db.Debug()
 
 	log := NewLogger()
-	util := NewUtil(log, env)
-
-	appCtx := components.NewAppContext(db, util)
+	appCtx := components.NewAppContext(db, log, log.ErrorLogger)
 
 	router := gin.Default()
 	router.Use(middleware.Recover(appCtx))

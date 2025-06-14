@@ -14,7 +14,7 @@ import (
 func UpdateRestaurant(appCtx components.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		db := appCtx.GetMainDBConnection()
-		log := appCtx.GetUtil().Log
+		log := appCtx.GetLog()
 
 		log.Info("Processing update restaurant")
 
