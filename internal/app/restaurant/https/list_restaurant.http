@@ -1,2 +1,2 @@
-GET http://localhost:8080/v1/restaurants
+GET http://localhost:8080/v1/restaurants?limit=2&cursor=e532qos8jjM2
 Content-Type: application/json

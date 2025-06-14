@@ -2,15 +2,12 @@ package restaurantstorage
 
 import (
 	"context"
-	"fmt"
 	restaurantmodel "learn-go/v2/internal/app/restaurant/model"
 	"learn-go/v2/internal/common"
 )
 
 func (s *sqlStore) ListWithCondition(ctx context.Context, paging *common.Paging, filter *restaurantmodel.Filter) ([]restaurantmodel.Restaurant, error) {
 	db := s.db.Table(restaurantmodel.Restaurant{}.TableName())
-
-	fmt.Println("Filter", filter.Status)
 
 	if f := filter; f != nil {
 		if f.OwnerId > 0 {
@@ -26,14 +23,33 @@ func (s *sqlStore) ListWithCondition(ctx context.Context, paging *common.Paging,
 		return nil, common.ErrorDB(err)
 	}
 
+	db = db.Order("id desc")
+
+	if v := paging.FakeCursor; v != "" {
+		uid, err := common.FromBase58(v)
+
+		if err != nil {
+			return nil, common.ErrorDB(err)
+		}
+
+		db = db.Where("id < ?", uid.GetLocalID())
+	} else {
+		offset := (paging.Page - 1) * paging.Limit
+		db = db.Offset(offset)
+	}
+
 	var result []restaurantmodel.Restaurant
 
 	if err := db.
-		Offset((paging.Page - 1) * paging.Limit).
 		Limit(paging.Limit).
-		Order("id desc").
 		Find(&result).Error; err != nil {
 		return nil, common.ErrorDB(err)
+	}
+
+	if len(result) > 0 {
+		last := result[len(result)-1]
+		last.Mask(false)
+		paging.NextCursor = last.FakeId.String()
 	}
 
 	return result, nil
