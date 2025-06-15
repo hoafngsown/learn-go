@@ -52,9 +52,11 @@ func main() {
 
 	router := gin.Default()
 	router.Use(middleware.Recover(appCtx))
+	router.Static("/static", "./static")
 
 	{
 		v1 := router.Group("/v1")
+
 		{
 
 			v1.GET("/restaurants", ginrestaurant.ListRestaurant(appCtx))
@@ -66,6 +68,7 @@ func main() {
 
 		{
 			v1.POST("/upload", ginupload.UploadImage(appCtx))
+			v1.POST("/upload/static", ginupload.UploadImageStatic(appCtx))
 		}
 	}
 
